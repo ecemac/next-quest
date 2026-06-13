@@ -7,7 +7,14 @@ import { Layout } from "./layout/Layout.tsx";
 import { Home } from "./pages/Home.tsx";
 import { Wishlist } from "./pages/Wishlist.tsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60, // 1 minute
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {

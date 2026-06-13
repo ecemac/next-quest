@@ -1,37 +1,28 @@
 import { Link } from "react-router-dom";
-import { usePlatforms } from "../hooks/usePlatforms";
 
 export const Sidebar = () => {
-  const { data } = usePlatforms();
-  console.log(data);
   return (
     <aside className="min-w-64 px-8 py-12">
-      <nav>
+      <nav aria-label="Main navigation">
         <ul className="space-y-8">
           <li>
             <Link to="/" className="text-gray-300 hover:text-white">
-              <h3>Home</h3>
+              Home
             </Link>
           </li>
           <li>
             <Link to="wishlist" className="text-gray-300 hover:text-white">
-              <h3>Wishlist</h3>
+              Wishlist
             </Link>
           </li>
           <li>
-            <Link to="#" className="text-gray-300 hover:text-white">
-              <h3>Top Rated</h3>
-            </Link>
+            <span className="text-gray-400">Top Rated</span>
           </li>
           <li>
-            <Link to="#" className="text-gray-300 hover:text-white">
-              <h3>Genres</h3>
-            </Link>
+            <span className="text-gray-400">Genres</span>
           </li>
           <li>
-            <Link to="#" className="text-gray-300 hover:text-white">
-              <h3>Platforms</h3>
-            </Link>
+            <span className="text-gray-400">Platforms</span>
           </li>
         </ul>
       </nav>
