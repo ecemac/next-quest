@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useGames } from "../hooks/useGames";
+import { useWishlist } from "../hooks/useWishlist";
 import { Card } from "../components/Card";
 
 export const Home = () => {
@@ -11,6 +12,7 @@ export const Home = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useGames();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -57,7 +59,12 @@ export const Home = () => {
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {allGames.map((game) => (
-            <Card key={game.id} game={game} />
+            <Card
+              key={game.id}
+              game={game}
+              isWishlisted={isInWishlist(game.id)}
+              onToggleWishlist={toggleWishlist}
+            />
           ))}
         </div>
       )}

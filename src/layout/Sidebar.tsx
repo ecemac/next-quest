@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
-    <aside className="min-w-64 px-8 py-12">
+    <aside className="min-w-64 px-8 py-12 lg:sticky lg:top-16 lg:self-start">
       <nav aria-label="Main navigation">
         <ul className="space-y-8">
           <li>

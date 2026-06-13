@@ -1,23 +1,27 @@
 import { CIcon } from "@coreui/icons-react";
 import { cilStar } from "@coreui/icons";
-import { VscHeart } from "react-icons/vsc";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import type { IGame } from "../types";
 import { normalizePlatform } from "../helpers/helpers";
 import { platformIcons } from "../helpers/icons";
 
 interface CardProps {
   game: IGame;
+  isWishlisted?: boolean;
+  onToggleWishlist?: (game: IGame) => void;
 }
 
-export const Card = ({ game }: CardProps) => {
+export const Card = ({ game, isWishlisted = false, onToggleWishlist }: CardProps) => {
   const { name, rating, platforms, background_image } = game;
   const imageSrc = background_image ?? "../../assets/react.svg";
   const uniquePlatforms = Array.from(
     new Set(platforms.map((p) => normalizePlatform(p.platform.slug))),
   );
 
+  const buttonLabel = isWishlisted ? "Remove from wishlist" : "Add to wishlist";
+
   return (
-    <div className="mb-4 rounded-lg bg-zinc-800 overflow-hidden">
+    <div className="mb-4 rounded-lg bg-zinc-800 overflow-hidden flex flex-col h-full">
       <div className="h-48 w-full">
         <img
           src={imageSrc}
@@ -26,7 +30,7 @@ export const Card = ({ game }: CardProps) => {
         />
       </div>
 
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-1">
         <h4 className="mb-4">{name}</h4>
         <div className="flex items-center space-x-3 mb-4">
           {uniquePlatforms.map((platform) => {
@@ -38,7 +42,7 @@ export const Card = ({ game }: CardProps) => {
             ) : null;
           })}
         </div>
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between gap-4 mt-auto">
           <div className="flex items-center space-x-2">
             <CIcon
               icon={cilStar}
@@ -49,7 +53,25 @@ export const Card = ({ game }: CardProps) => {
             />
             <span className="text-xs">{rating}</span>
           </div>
-          <VscHeart color="red" aria-hidden="true" />
+          {onToggleWishlist ? (
+            <button
+              type="button"
+              className={isWishlisted ? "text-red-500" : "text-red-400"}
+              onClick={() => onToggleWishlist(game)}
+              aria-pressed={isWishlisted}
+              aria-label={buttonLabel}
+            >
+              {isWishlisted ? (
+                <AiFillHeart aria-hidden="true" size={20} />
+              ) : (
+                <AiOutlineHeart aria-hidden="true" size={20} />
+              )}
+            </button>
+          ) : isWishlisted ? (
+            <AiFillHeart className="text-red-500" aria-hidden="true" size={20} />
+          ) : (
+            <AiOutlineHeart className="text-red-400" aria-hidden="true" size={20} />
+          )}
         </div>
       </div>
     </div>
