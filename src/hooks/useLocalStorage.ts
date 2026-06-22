@@ -19,22 +19,25 @@ export const useLocalStorage = <T,>(key: string, initialValue: T) => {
   const setValue = useCallback(
     (value: T | ((prevValue: T) => T)) => {
       try {
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
+        setStoredValue((prevValue) => {
+          const valueToStore = value instanceof Function ? value(prevValue) : value;
 
-        if (isBrowser) {
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        }
+          if (isBrowser) {
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          }
+
+          return valueToStore;
+        });
       } catch {
         // Ignore write errors for localStorage.
       }
     },
-    [key, storedValue],
+    [key],
   );
 
   useEffect(() => {
     setStoredValue(readValue(key, initialValue));
-  }, [key, initialValue]);
+  }, [key]);
 
   useEffect(() => {
     if (!isBrowser) return;
