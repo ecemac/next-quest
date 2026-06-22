@@ -1,37 +1,37 @@
 import { Link } from "react-router-dom";
-import { usePlatforms } from "../hooks/usePlatforms";
 
-export const Sidebar = () => {
-  const { data } = usePlatforms();
-  console.log(data);
+interface SidebarProps {
+  onNavigate?: () => void;
+  mobile?: boolean;
+}
+
+export const Sidebar = ({ onNavigate, mobile = false }: SidebarProps) => {
+  const baseClass = mobile
+    ? "w-full h-full"
+    : "hidden lg:block min-w-64 lg:sticky lg:top-16 lg:self-start";
+
   return (
-    <aside className="min-w-64 px-8 py-12">
-      <nav>
+    <aside className={`${baseClass} px-8 py-12`} aria-hidden={!mobile && undefined}>
+      <nav aria-label="Main navigation">
         <ul className="space-y-8">
           <li>
-            <Link to="/" className="text-gray-300 hover:text-white">
-              <h3>Home</h3>
+            <Link to="/" className="text-gray-300 hover:text-white" onClick={onNavigate}>
+              Home
             </Link>
           </li>
           <li>
-            <Link to="wishlist" className="text-gray-300 hover:text-white">
-              <h3>Wishlist</h3>
+            <Link to="wishlist" className="text-gray-300 hover:text-white" onClick={onNavigate}>
+              Wishlist
             </Link>
           </li>
           <li>
-            <Link to="#" className="text-gray-300 hover:text-white">
-              <h3>Top Rated</h3>
-            </Link>
+            <span className="text-gray-400">Top Rated</span>
           </li>
           <li>
-            <Link to="#" className="text-gray-300 hover:text-white">
-              <h3>Genres</h3>
-            </Link>
+            <span className="text-gray-400">Genres</span>
           </li>
           <li>
-            <Link to="#" className="text-gray-300 hover:text-white">
-              <h3>Platforms</h3>
-            </Link>
+            <span className="text-gray-400">Platforms</span>
           </li>
         </ul>
       </nav>

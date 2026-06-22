@@ -4,11 +4,8 @@ import type { IGamesResponse, IGamesQuery } from "../types";
 
 export const useGames = (query?: Omit<IGamesQuery, "page">) => {
   return useInfiniteQuery({
-    queryKey: [
-      "games",
-      query,
-    ],
-    queryFn: async ({pageParam = 1}) => {
+    queryKey: ["games", query],
+    queryFn: async ({ pageParam = 1 }) => {
       const data: IGamesResponse = await apiBase<IGamesResponse>("games", {
         ...query,
         page: pageParam,
@@ -21,5 +18,7 @@ export const useGames = (query?: Omit<IGamesQuery, "page">) => {
       return undefined;
     },
     initialPageParam: 1,
+    staleTime: 1000 * 60, // 1 minute
+    refetchOnWindowFocus: false,
   });
 };
